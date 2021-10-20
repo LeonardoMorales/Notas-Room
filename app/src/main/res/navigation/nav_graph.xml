@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/noteListFragment">
+
+    <fragment
+        android:id="@+id/noteListFragment"
+        android:name="dev.leonardom.notasroom.presentation.note_list.NoteListFragment"
+        android:label="NoteListFragment" >
+
+        <action
+            android:id="@+id/action_noteListFragment_to_noteDetailFragment"
+            app:destination="@id/noteDetailFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/noteDetailFragment"
+        android:name="dev.leonardom.notasroom.presentation.note_detail.NoteDetailFragment"
+        android:label="NoteDetailFragment" />
+
+</navigation>
