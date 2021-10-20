@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!--APP-->
+    <color name="app_bg_color">#FFFFFFFF</color>
+    <color name="secondary_color">#E9F8FF</color>
+    <color name="on_secondary_color">#2A2A30</color>
+
+    <!--NOTE CONTENT-->
+    <color name="note_title_color">#1E1E1E</color>
+    <color name="note_content_color">#494747</color>
+
+    <!--RED-->
+    <color name="red001">#FAD2E1</color>
+
+    <!--PINK-->
+    <color name="pink002">#FBD9FB</color>
+
+    <!--ORANGE-->
+    <color name="orange003">#FFD6A5</color>
+    <color name="orange004">#FAEDCB</color>
+
+    <!--YELLOW-->
+    <color name="yellow005">#FDFFB6</color>
+
+    <!--GREEN-->
+    <color name="green006">#CAFFBF</color>
+    <color name="green007">#C9E4DE</color>
+    <color name="green008">#B4F5FB</color>
+
+    <!--BLUE-->
+    <color name="blue009">#D1EAFF</color>
+    <color name="blue010">#AFE1FB</color>
+
+    <!--PURPLE-->
+    <color name="purple011">#E0DAFF</color>
+</resources>

@@ -1,0 +1,42 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="256dp"
+    android:height="256dp"
+    android:viewportWidth="256"
+    android:viewportHeight="256">
+  <group>
+    <clip-path
+        android:pathData="M42,30L108,30A12,12 0,0 1,120 42L120,108A12,12 0,0 1,108 120L42,120A12,12 0,0 1,30 108L30,42A12,12 0,0 1,42 30z"/>
+    <path
+        android:pathData="M42,30L108,30A12,12 0,0 1,120 42L120,108A12,12 0,0 1,108 120L42,120A12,12 0,0 1,30 108L30,42A12,12 0,0 1,42 30z"
+        android:strokeWidth="40"
+        android:fillColor="#00000000"
+        android:strokeColor="@color/on_secondary_color"/>
+  </group>
+  <group>
+    <clip-path
+        android:pathData="M42,136L108,136A12,12 0,0 1,120 148L120,214A12,12 0,0 1,108 226L42,226A12,12 0,0 1,30 214L30,148A12,12 0,0 1,42 136z"/>
+    <path
+        android:pathData="M42,136L108,136A12,12 0,0 1,120 148L120,214A12,12 0,0 1,108 226L42,226A12,12 0,0 1,30 214L30,148A12,12 0,0 1,42 136z"
+        android:strokeWidth="40"
+        android:fillColor="#00000000"
+        android:strokeColor="@color/on_secondary_color"/>
+  </group>
+  <group>
+    <clip-path
+        android:pathData="M148,136L214,136A12,12 0,0 1,226 148L226,214A12,12 0,0 1,214 226L148,226A12,12 0,0 1,136 214L136,148A12,12 0,0 1,148 136z"/>
+    <path
+        android:pathData="M148,136L214,136A12,12 0,0 1,226 148L226,214A12,12 0,0 1,214 226L148,226A12,12 0,0 1,136 214L136,148A12,12 0,0 1,148 136z"
+        android:strokeWidth="40"
+        android:fillColor="#00000000"
+        android:strokeColor="@color/on_secondary_color"/>
+  </group>
+  <group>
+    <clip-path
+        android:pathData="M148,30L214,30A12,12 0,0 1,226 42L226,108A12,12 0,0 1,214 120L148,120A12,12 0,0 1,136 108L136,42A12,12 0,0 1,148 30z"/>
+    <path
+        android:pathData="M148,30L214,30A12,12 0,0 1,226 42L226,108A12,12 0,0 1,214 120L148,120A12,12 0,0 1,136 108L136,42A12,12 0,0 1,148 30z"
+        android:strokeWidth="40"
+        android:fillColor="#00000000"
+        android:strokeColor="@color/on_secondary_color"/>
+  </group>
+</vector>
