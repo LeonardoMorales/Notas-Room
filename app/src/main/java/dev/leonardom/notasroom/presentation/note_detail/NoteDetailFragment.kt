@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import dev.leonardom.notasroom.databinding.FragmentNoteDetailBinding
 
+@AndroidEntryPoint
 class NoteDetailFragment : Fragment() {
 
     private var _binding: FragmentNoteDetailBinding? = null
