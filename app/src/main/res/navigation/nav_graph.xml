@@ -18,6 +18,15 @@
     <fragment
         android:id="@+id/noteDetailFragment"
         android:name="dev.leonardom.notasroom.presentation.note_detail.NoteDetailFragment"
-        android:label="NoteDetailFragment" />
+        android:label="NoteDetailFragment" >
+        <action
+            android:id="@+id/action_noteDetailFragment_to_bottomSheetColorSelectorFragment"
+            app:destination="@id/bottomSheetColorSelectorFragment" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/bottomSheetColorSelectorFragment"
+        android:name="dev.leonardom.notasroom.presentation.note_detail.BottomSheetColorSelectorFragment"
+        android:label="BottomSheetColorSelectorFragment" />
 
 </navigation>
