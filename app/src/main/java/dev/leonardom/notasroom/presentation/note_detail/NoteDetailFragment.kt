@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.leonardom.notasroom.databinding.FragmentNoteDetailBinding
 import dev.leonardom.notasroom.presentation.utils.showKeyboard
@@ -28,6 +29,11 @@ class NoteDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.editTextNoteContent.showKeyboard()
+
+        binding.imageViewNoteColor.setOnClickListener {
+            val action = NoteDetailFragmentDirections.actionNoteDetailFragmentToBottomSheetColorSelectorFragment()
+            findNavController().navigate(action)
+        }
 
     }
 

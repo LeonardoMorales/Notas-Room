@@ -4,13 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import dev.leonardom.notasroom.databinding.FragmentNoteColorSelectorBinding
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class BottomSheetColorSelectorFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentNoteColorSelectorBinding? = null
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var colorSelectorAdapter: ColorSelectorAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,6 +30,11 @@ class BottomSheetColorSelectorFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.recyclerViewColor.apply{
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = colorSelectorAdapter
+        }
 
     }
 
