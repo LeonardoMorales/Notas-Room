@@ -11,22 +11,29 @@
 
         <action
             android:id="@+id/action_noteListFragment_to_noteDetailFragment"
-            app:destination="@id/noteDetailFragment" />
+            app:destination="@id/note_detail_graph" />
 
     </fragment>
 
-    <fragment
-        android:id="@+id/noteDetailFragment"
-        android:name="dev.leonardom.notasroom.presentation.note_detail.NoteDetailFragment"
-        android:label="NoteDetailFragment" >
-        <action
-            android:id="@+id/action_noteDetailFragment_to_bottomSheetColorSelectorFragment"
-            app:destination="@id/bottomSheetColorSelectorFragment" />
-    </fragment>
+    <navigation android:id="@+id/note_detail_graph"
+        app:startDestination="@id/noteDetailFragment">
 
-    <dialog
-        android:id="@+id/bottomSheetColorSelectorFragment"
-        android:name="dev.leonardom.notasroom.presentation.note_detail.BottomSheetColorSelectorFragment"
-        android:label="BottomSheetColorSelectorFragment" />
+        <fragment
+            android:id="@+id/noteDetailFragment"
+            android:name="dev.leonardom.notasroom.presentation.note_detail.NoteDetailFragment"
+            android:label="NoteDetailFragment">
+
+            <action
+                android:id="@+id/action_noteDetailFragment_to_bottomSheetColorSelectorFragment"
+                app:destination="@id/bottomSheetColorSelectorFragment" />
+
+        </fragment>
+
+        <dialog
+            android:id="@+id/bottomSheetColorSelectorFragment"
+            android:name="dev.leonardom.notasroom.presentation.note_detail.BottomSheetColorSelectorFragment"
+            android:label="BottomSheetColorSelectorFragment" />
+
+    </navigation>
 
 </navigation>
