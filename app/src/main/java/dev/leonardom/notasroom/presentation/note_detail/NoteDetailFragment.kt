@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import dev.leonardom.notasroom.databinding.FragmentNoteDetailBinding
+import dev.leonardom.notasroom.presentation.utils.showKeyboard
 
 @AndroidEntryPoint
 class NoteDetailFragment : Fragment() {
@@ -25,6 +26,8 @@ class NoteDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.editTextNoteContent.showKeyboard()
 
     }
 
