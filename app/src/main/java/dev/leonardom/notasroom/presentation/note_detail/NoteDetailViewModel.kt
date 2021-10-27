@@ -85,6 +85,14 @@ constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun deleteNote() {
+        _note.value?.id?.let { noteId ->
+            noteRepository.deleteNote(noteId).onEach {
+                _noteHasBeenModified.value = true
+            }.launchIn(viewModelScope)
+        }
+    }
+
 }
 
 

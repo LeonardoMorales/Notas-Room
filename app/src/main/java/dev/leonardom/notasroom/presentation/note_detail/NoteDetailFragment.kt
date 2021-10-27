@@ -53,6 +53,8 @@ class NoteDetailFragment : Fragment() {
 
         binding.imageViewArrowBack.setOnClickListener { saveNote() }
 
+        binding.imageViewDeleteNote.setOnClickListener { viewModel.deleteNote() }
+
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.selectedColor.collect { selectedColor ->
                 binding.noteContainer.setBackgroundColor(
