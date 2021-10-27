@@ -11,6 +11,7 @@ import dev.leonardom.notasroom.data.cache.AppDatabase
 import dev.leonardom.notasroom.data.cache.AppDatabase.Companion.DATABASE_NAME
 import dev.leonardom.notasroom.data.cache.note.NoteDao
 import dev.leonardom.notasroom.domain.repositories.NoteRepository
+import dev.leonardom.notasroom.domain.repositories.SettingsRepository
 import dev.leonardom.notasroom.presentation.note_detail.ColorSelectorAdapter
 import dev.leonardom.notasroom.presentation.note_list.NoteListAdapter
 import javax.inject.Singleton
@@ -34,6 +35,14 @@ object AppModule {
     fun provideNoteRepository(
         noteDao: NoteDao
     ) = NoteRepository(noteDao)
+
+    @Provides
+    @Singleton
+    fun provideSettingsRepository(
+        application: Application
+    ): SettingsRepository {
+        return SettingsRepository(application)
+    }
 
     @Provides
     @Singleton
