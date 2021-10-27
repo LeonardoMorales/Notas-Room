@@ -4,8 +4,11 @@ import android.app.Application
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import dev.leonardom.notasroom.data.data_store.SettingsDataStore
+import dev.leonardom.notasroom.domain.utils.DataStoreKeys.Companion.DARK_MODE_KEY
+import dev.leonardom.notasroom.domain.utils.DataStoreKeys.Companion.LAYOUT_MODE_KEY
 import kotlinx.coroutines.flow.Flow
 
 const val SETTING_PREFERENCES_NAME: String = "settings_preferences"
@@ -19,11 +22,17 @@ class SettingsRepository(
     )
 
     override suspend fun toggleDarkMode() {
-        TODO("Not yet implemented")
+        context.dataStore.edit { preferences ->
+            val current = preferences[DARK_MODE_KEY] ?: false
+            preferences[DARK_MODE_KEY] = !current
+        }
     }
 
     override suspend fun toggleNotesLayout() {
-        TODO("Not yet implemented")
+        context.dataStore.edit { preferences ->
+            val current = preferences[LAYOUT_MODE_KEY] ?: false
+            preferences[LAYOUT_MODE_KEY] = !current
+        }
     }
 
     override fun readDarkModeValue(): Flow<Boolean> {
