@@ -56,6 +56,11 @@ class NoteListFragment : Fragment() {
             }
         }
 
+        noteListAdapter.setOnItemClickListener { noteId ->
+            val action = NoteListFragmentDirections.actionNoteListFragmentToNoteDetailFragment(noteId)
+            findNavController().navigate(action)
+        }
+
     }
 
     override fun onResume() {

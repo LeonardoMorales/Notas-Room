@@ -1,5 +1,6 @@
 package dev.leonardom.notasroom.presentation.note_detail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +17,8 @@ import javax.inject.Inject
 class NoteDetailViewModel
 @Inject
 constructor(
-    private val noteRepository: NoteRepository
+    private val noteRepository: NoteRepository,
+    savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
     private var _selectedColor = MutableStateFlow(R.color.app_bg_color)
@@ -27,6 +29,18 @@ constructor(
 
     private var _noteHasBeenModified = MutableStateFlow(false)
     val noteHasBeenModified: StateFlow<Boolean> = _noteHasBeenModified
+
+    init {
+        savedStateHandle.get<String>("noteId")?.let { noteId ->
+            getNoteById(noteId)
+        }
+    }
+
+    private fun getNoteById(noteId: String) {
+        noteRepository.getNoteById(noteId).onEach { note ->
+            _note.value = note
+        }.launchIn(viewModelScope)
+    }
 
     fun updateNoteColor(newSelectedColor: Int) {
         _selectedColor.value = newSelectedColor

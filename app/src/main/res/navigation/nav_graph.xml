@@ -18,6 +18,12 @@
     <navigation android:id="@+id/note_detail_graph"
         app:startDestination="@id/noteDetailFragment">
 
+        <argument
+            android:name="noteId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
         <fragment
             android:id="@+id/noteDetailFragment"
             android:name="dev.leonardom.notasroom.presentation.note_detail.NoteDetailFragment"
@@ -26,6 +32,12 @@
             <action
                 android:id="@+id/action_noteDetailFragment_to_bottomSheetColorSelectorFragment"
                 app:destination="@id/bottomSheetColorSelectorFragment" />
+
+            <argument
+                android:name="noteId"
+                app:argType="string"
+                app:nullable="true"
+                android:defaultValue="@null" />
 
         </fragment>
 
