@@ -21,6 +21,9 @@ constructor(
     private var _noteList = MutableStateFlow<List<Note>>(emptyList())
     val noteList: StateFlow<List<Note>> = _noteList
 
+    private var _darkMode = MutableStateFlow<Boolean>(false)
+    val darkMode: StateFlow<Boolean> = _darkMode
+
     private var _searchQuery = MutableStateFlow("")
 
     init {
@@ -37,6 +40,10 @@ constructor(
     fun updateQuery(newQuery: String) {
         _searchQuery.value = newQuery
         getNotes()
+    }
+
+    fun toggleDarkMode() {
+        _darkMode.value = !darkMode.value
     }
 
 }

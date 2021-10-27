@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--APP-->
+    <color name="app_bg_color">#252525</color> <!--0d1b2a-->
+    <color name="secondary_color">#35373C</color> <!--415a77-->
+    <color name="on_secondary_color">#FFFFFFFF</color>
+
+    <!--NOTE CONTENT-->
+    <color name="note_title_color">#FFFAFA</color>
+    <color name="note_content_color">#D2D2D3</color>
+
+    <!--RED-->
+    <color name="red001">#830233</color>
+
+    <!--PINK-->
+    <color name="pink002">#6E0E6E</color>
+
+    <!--ORANGE-->
+    <color name="orange003">#8A2714</color>
+    <color name="orange004">#7C6018</color>
+
+    <!--YELLOW-->
+    <color name="yellow005">#969829</color>
+
+    <!--GREEN-->
+    <color name="green006">#23511A</color>
+    <color name="green007">#015542</color>
+    <color name="green008">#015B63</color>
+
+    <!--BLUE-->
+    <color name="blue009">#00527C</color>
+    <color name="blue010">#003561</color>
+
+    <!--PURPLE-->
+    <color name="purple011">#462970</color>
+
+</resources>
