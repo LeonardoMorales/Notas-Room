@@ -55,7 +55,16 @@ constructor(
     }
 
     private fun updateNote(title: String, content: String) {
+        val noteModified = _note.value!!.copy(
+            title = title,
+            content = content,
+            color = _selectedColor.value,
+            updated = System.currentTimeMillis()
+        )
 
+        noteRepository.updateNote(noteModified).onEach {
+            _noteHasBeenModified.value = true
+        }.launchIn(viewModelScope)
     }
 
     private fun saveNewNote(title: String, content: String) {

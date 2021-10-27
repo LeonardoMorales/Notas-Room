@@ -45,4 +45,25 @@ class NoteRepository(
         e.printStackTrace()
     }
 
+    fun updateNote(note: Note): Flow<Boolean> = flow {
+        noteDao.updateNote(note.toNoteEntity())
+
+        emit(true)
+    }.catch { e ->
+        e.printStackTrace()
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
