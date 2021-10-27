@@ -11,7 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import dev.leonardom.notasroom.R
 import dev.leonardom.notasroom.databinding.FragmentNoteListBinding
+import dev.leonardom.notasroom.presentation.utils.changeStatusBarColor
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -54,6 +56,12 @@ class NoteListFragment : Fragment() {
             }
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().window.changeStatusBarColor(R.color.app_bg_color)
+        viewModel.getNotes()
     }
 
     override fun onDestroyView() {

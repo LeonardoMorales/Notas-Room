@@ -13,6 +13,7 @@ import androidx.navigation.navGraphViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.leonardom.notasroom.R
 import dev.leonardom.notasroom.databinding.FragmentNoteDetailBinding
+import dev.leonardom.notasroom.presentation.utils.changeStatusBarColor
 import dev.leonardom.notasroom.presentation.utils.showKeyboard
 import kotlinx.coroutines.flow.collect
 
@@ -55,6 +56,8 @@ class NoteDetailFragment : Fragment() {
                         selectedColor
                     )
                 )
+
+                requireActivity().window.changeStatusBarColor(selectedColor)
 
                 binding.linearLayoutBottomTools.setBackgroundColor(
                     ContextCompat.getColor(

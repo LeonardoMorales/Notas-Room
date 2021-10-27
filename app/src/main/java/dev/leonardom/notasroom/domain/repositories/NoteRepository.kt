@@ -1,6 +1,7 @@
 package dev.leonardom.notasroom.domain.repositories
 
 import dev.leonardom.notasroom.data.cache.note.NoteDao
+import dev.leonardom.notasroom.data.cache.note.toNote
 import dev.leonardom.notasroom.data.cache.note.toNoteEntity
 import dev.leonardom.notasroom.data.data_source.getNoteList
 import dev.leonardom.notasroom.domain.model.Note
@@ -20,9 +21,15 @@ class NoteRepository(
         e.printStackTrace()
     }
 
-    fun getNotes(): Flow<List<Note>> = flow {
+    fun getNotes(
+        query: String
+    ): Flow<List<Note>> = flow {
 
-        val cachedNoteList = getNoteList()
+        val cachedNoteList = noteDao.getNotes(query).map{ it.toNote() }
+
+        if(cachedNoteList.isNullOrEmpty()) {
+            throw Exception("UNABLE TO RETRIEVE NOTE LIST")
+        }
 
         emit(cachedNoteList)
 
