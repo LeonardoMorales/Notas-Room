@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -14,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.leonardom.notasroom.R
 import dev.leonardom.notasroom.databinding.FragmentNoteListBinding
 import dev.leonardom.notasroom.presentation.utils.changeStatusBarColor
+import dev.leonardom.notasroom.presentation.utils.hideKeyboard
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -40,6 +42,29 @@ class NoteListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return if(query != null) {
+                    searchDatabase(query)
+                    binding.searchView.hideKeyboard()
+                    true
+                } else {
+                    false
+                }
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                return if(query != null) {
+                    searchDatabase(query)
+                    true
+                } else {
+                    false
+                }
+            }
+
+        })
+
         binding.recyclerViewNotes.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = noteListAdapter
@@ -61,6 +86,10 @@ class NoteListFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+    }
+
+    private fun searchDatabase(query: String) {
+        viewModel.updateQuery(query)
     }
 
     override fun onResume() {

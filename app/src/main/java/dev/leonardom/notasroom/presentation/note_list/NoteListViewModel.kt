@@ -34,4 +34,15 @@ constructor(
 
     }
 
+    fun updateQuery(newQuery: String) {
+        _searchQuery.value = newQuery
+        getNotes()
+    }
+
 }
+
+
+
+
+
+
