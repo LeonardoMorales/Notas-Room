@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.leonardom.notasroom.R
 import dev.leonardom.notasroom.databinding.FragmentNoteListBinding
@@ -44,6 +46,8 @@ class NoteListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.imageViewDarkMode.setOnClickListener { viewModel.toggleDarkMode() }
+
+        binding.imageViewLayoutList.setOnClickListener { viewModel.toggleLayoutMode() }
 
         binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -90,6 +94,22 @@ class NoteListFragment : Fragment() {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.linearLayoutMode.collect { isLinearLayout ->
+                if(isLinearLayout) {
+                    binding.imageViewLayoutList.setImageDrawable(
+                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_grid)
+                    )
+                    binding.recyclerViewNotes.layoutManager = LinearLayoutManager(requireContext())
+                } else {
+                    binding.imageViewLayoutList.setImageDrawable(
+                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_list)
+                    )
+                    binding.recyclerViewNotes.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
                 }
             }
         }

@@ -5,11 +5,15 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
 import dev.leonardom.notasroom.data.data_store.SettingsDataStore
 import dev.leonardom.notasroom.domain.utils.DataStoreKeys.Companion.DARK_MODE_KEY
 import dev.leonardom.notasroom.domain.utils.DataStoreKeys.Companion.LAYOUT_MODE_KEY
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import java.io.IOException
 
 const val SETTING_PREFERENCES_NAME: String = "settings_preferences"
 
@@ -36,11 +40,33 @@ class SettingsRepository(
     }
 
     override fun readDarkModeValue(): Flow<Boolean> {
-        TODO("Not yet implemented")
+        return context.dataStore.data
+            .catch { exception ->
+                if(exception is IOException) {
+                    emit(emptyPreferences())
+                } else {
+                    throw exception
+                }
+            }
+            .map { preferences ->
+                val darkMode = preferences[DARK_MODE_KEY] ?: false
+                darkMode
+            }
     }
 
     override fun readNotesLayoutValue(): Flow<Boolean> {
-        TODO("Not yet implemented")
+        return context.dataStore.data
+            .catch { exception ->
+                if(exception is IOException) {
+                    emit(emptyPreferences())
+                } else {
+                    throw exception
+                }
+            }
+            .map { preferences ->
+                val layoutMode = preferences[LAYOUT_MODE_KEY] ?: false
+                layoutMode
+            }
     }
 
 }
