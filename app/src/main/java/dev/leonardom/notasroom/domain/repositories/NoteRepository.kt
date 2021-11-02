@@ -35,10 +35,6 @@ class NoteRepository(
 
         val cachedNoteList = noteDao.getNotes(query).map{ it.toNote() }
 
-        if(cachedNoteList.isNullOrEmpty()) {
-            throw Exception("UNABLE TO RETRIEVE NOTE LIST")
-        }
-
         emit(cachedNoteList)
 
     }.catch { e ->
