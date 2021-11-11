@@ -51,7 +51,7 @@ fun NoteListScreen(
         floatingActionButton = {
             FloatingActionButton(
                 backgroundColor = MaterialTheme.noteAppColors.secondaryColor,
-                onClick = {  },
+                onClick = { modifyNote(null) },
             ) {
                 Image(
                     imageVector = Icons.Default.Add,
@@ -80,7 +80,9 @@ fun NoteListScreen(
                     NoteDesign(
                         note = it,
                         noteColor = getNoteColorFromIndex(noteColorList, it.color),
-                        modifyNote = modifyNote
+                        modifyNote = { noteId ->
+                            modifyNote(noteId)
+                        }
                     )
                 }
             }
@@ -96,7 +98,9 @@ fun NoteListScreen(
                             NoteDesign(
                                 note = it,
                                 noteColor = getNoteColorFromIndex(noteColorList, it.color),
-                                modifyNote = modifyNote
+                                modifyNote = { noteId ->
+                                    modifyNote(noteId)
+                                }
                             )
                         }
                     }
