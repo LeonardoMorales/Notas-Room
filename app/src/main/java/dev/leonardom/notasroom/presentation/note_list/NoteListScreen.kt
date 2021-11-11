@@ -13,10 +13,12 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.unit.dp
 import dev.leonardom.notasroom.domain.model.Note
 import dev.leonardom.notasroom.domain.model.NoteColor
 import dev.leonardom.notasroom.presentation.note_list.components.CustomTopAppBar
 import dev.leonardom.notasroom.presentation.note_list.components.NoteDesign
+import dev.leonardom.notasroom.presentation.note_list.components.StaggeredVerticalGrid
 import dev.leonardom.notasroom.presentation.ui.noteAppColors
 import dev.leonardom.notasroom.presentation.utils.getNoteColorFromIndex
 
@@ -68,18 +70,37 @@ fun NoteListScreen(
             )
         }
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.noteAppColors.appBgColor)
-        ){
-
-            items(noteList) { note ->
-                NoteDesign(
-                    note = note,
-                    noteColor = getNoteColorFromIndex(noteColorList, note.color),
-                    modifyNote = { modifyNote(note.id) }
-                )
+        if(isLinearLayoutMode) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.noteAppColors.appBgColor)
+            ){
+                items(noteList) {
+                    NoteDesign(
+                        note = it,
+                        noteColor = getNoteColorFromIndex(noteColorList, it.color),
+                        modifyNote = modifyNote
+                    )
+                }
+            }
+        } else {
+            LazyColumn {
+                item {
+                    StaggeredVerticalGrid(
+                        maxColumnWidth = 220.dp,
+                        modifier = Modifier
+                            .background(MaterialTheme.noteAppColors.appBgColor),
+                    ) {
+                        noteList.forEach {
+                            NoteDesign(
+                                note = it,
+                                noteColor = getNoteColorFromIndex(noteColorList, it.color),
+                                modifyNote = modifyNote
+                            )
+                        }
+                    }
+                }
             }
         }
     }
