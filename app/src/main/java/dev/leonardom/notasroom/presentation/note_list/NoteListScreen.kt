@@ -15,13 +15,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import dev.leonardom.notasroom.domain.model.Note
 import dev.leonardom.notasroom.domain.model.NoteColor
+import dev.leonardom.notasroom.presentation.note_list.components.CustomTopAppBar
 import dev.leonardom.notasroom.presentation.note_list.components.NoteDesign
 import dev.leonardom.notasroom.presentation.ui.noteAppColors
 import dev.leonardom.notasroom.presentation.utils.getNoteColorFromIndex
 
 @Composable
 fun NoteListScreen(
-    noteList: List<Note>
+    noteList: List<Note>,
+    isLinearLayoutMode: Boolean,
+    toggleLayoutMode: () -> Unit,
+    toggleDarkMode: () -> Unit,
+    onSearchQuery: (String) -> Unit,
+    modifyNote: (String?) -> Unit
 ) {
 
     val noteColorList = listOf(
@@ -52,7 +58,15 @@ fun NoteListScreen(
                 )
             }
         },
-        topBar = {}
+        topBar = {
+            CustomTopAppBar(
+                modifier = Modifier.background(MaterialTheme.noteAppColors.appBgColor),
+                isLinearLayoutMode = isLinearLayoutMode,
+                toggleLayoutMode = toggleLayoutMode,
+                toggleDarkMode = toggleDarkMode,
+                onSearchQuery = onSearchQuery
+            )
+        }
     ) {
         LazyColumn(
             modifier = Modifier
@@ -64,7 +78,7 @@ fun NoteListScreen(
                 NoteDesign(
                     note = note,
                     noteColor = getNoteColorFromIndex(noteColorList, note.color),
-                    modifyNote = {  }
+                    modifyNote = { modifyNote(note.id) }
                 )
             }
         }
