@@ -26,9 +26,20 @@ class MainActivity : ComponentActivity() {
             AppNotasRoomTheme {
 
                 val viewModel: NoteListViewModel = hiltViewModel()
-                val noteList = viewModel.noteList.collectAsState()
 
-                NoteListScreen(noteList = noteList.value)
+                val noteList = viewModel.noteList.collectAsState()
+                val isLinearLayoutMode = viewModel.linearLayoutMode.collectAsState()
+
+                NoteListScreen(
+                    noteList = noteList.value,
+                    isLinearLayoutMode = isLinearLayoutMode.value,
+                    toggleLayoutMode = viewModel::toggleLayoutMode,
+                    toggleDarkMode = viewModel::toggleDarkMode,
+                    onSearchQuery = viewModel::updateQuery,
+                    modifyNote = { noteId ->
+
+                    }
+                )
 
             }
         }
