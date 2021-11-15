@@ -18,6 +18,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.leonardom.notasroom.presentation.navigation.Destination
+import dev.leonardom.notasroom.presentation.note_detail.NoteDetailScreen
+import dev.leonardom.notasroom.presentation.note_detail.NoteDetailViewModel
 import dev.leonardom.notasroom.presentation.note_list.NoteListScreen
 import dev.leonardom.notasroom.presentation.note_list.NoteListViewModel
 import dev.leonardom.notasroom.presentation.ui.AppNotasRoomTheme
@@ -88,6 +90,26 @@ fun NavGraphBuilder.addNoteDetail(
     composable(
         route = Destination.NoteDetail.route
     ){
+
+        val viewModel: NoteDetailViewModel = hiltViewModel()
+
+        val note = viewModel.note.collectAsState()
+        val noteHasBeenModified = viewModel.noteHasBeenModified.collectAsState()
+        val selectedColor = viewModel.selectedColor.collectAsState()
+
+        if(noteHasBeenModified.value) {
+            LaunchedEffect(key1 = Unit){
+                navController.popBackStack()
+            }
+        } else {
+            NoteDetailScreen(
+                note = note.value,
+                selectedNoteColorIndex = selectedColor.value,
+                saveNoteChanges = viewModel::saveNoteChanges,
+                deleteNote = viewModel::deleteNote,
+                onColorSelectedIndex = viewModel::updateNoteColor
+            )
+        }
 
     }
 }

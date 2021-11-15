@@ -21,7 +21,7 @@ constructor(
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
-    private var _selectedColor = MutableStateFlow(R.color.app_bg_color)
+    private var _selectedColor = MutableStateFlow(0)
     val selectedColor: StateFlow<Int> = _selectedColor
 
     private var _note = MutableStateFlow<Note?>(null)
