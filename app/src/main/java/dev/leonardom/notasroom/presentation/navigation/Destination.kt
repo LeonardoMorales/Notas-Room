@@ -1,6 +1,7 @@
 package dev.leonardom.notasroom.presentation.navigation
 
 import androidx.navigation.NamedNavArgument
+import androidx.navigation.navArgument
 
 sealed class Destination(
     val route: String,
@@ -9,6 +10,13 @@ sealed class Destination(
 
     object NoteList : Destination("noteList", emptyList())
 
-    object NoteDetail: Destination("noteDetail", emptyList())
+    object NoteDetail: Destination(
+        route = "noteDetail",
+        arguments = listOf(
+            navArgument("noteId"){
+                nullable = true
+            }
+        )
+    )
 
 }

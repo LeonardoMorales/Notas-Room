@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +28,7 @@ import dev.leonardom.notasroom.presentation.ui.RED50
 import dev.leonardom.notasroom.presentation.ui.RED600
 import dev.leonardom.notasroom.presentation.ui.noteAppColors
 
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -77,20 +79,20 @@ fun NavGraphBuilder.addNoteList(
             toggleDarkMode = viewModel::toggleDarkMode,
             onSearchQuery = viewModel::updateQuery,
             modifyNote = { noteId ->
-                navController.navigate(Destination.NoteDetail.route)
+                navController.navigate(Destination.NoteDetail.route + "?noteId=$noteId")
             }
         )
     }
 }
 
 
+@ExperimentalMaterialApi
 fun NavGraphBuilder.addNoteDetail(
     navController: NavController
 ){
     composable(
-        route = Destination.NoteDetail.route
+        route = Destination.NoteDetail.route + "?noteId={noteId}"
     ){
-
         val viewModel: NoteDetailViewModel = hiltViewModel()
 
         val note = viewModel.note.collectAsState()
