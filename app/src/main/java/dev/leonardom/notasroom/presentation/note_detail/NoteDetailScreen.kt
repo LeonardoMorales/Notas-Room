@@ -7,8 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
@@ -33,7 +32,10 @@ import dev.leonardom.notasroom.presentation.utils.getNoteColorFromIndex
 import java.text.SimpleDateFormat
 import java.util.*
 import dev.leonardom.notasroom.R
+import dev.leonardom.notasroom.presentation.note_detail.components.ColorSelectorDesign
+import kotlinx.coroutines.launch
 
+@ExperimentalMaterialApi
 @Composable
 fun NoteDetailScreen(
     note: Note?,
@@ -85,173 +87,204 @@ fun NoteDetailScreen(
         )
     }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(color = getNoteColorFromIndex(noteColorList, selectedNoteColorIndex)),
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Image(
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable {
-                        saveNoteChanges(
-                            noteTitle,
-                            noteContent
-                        )
-                    },
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = "Back Button",
-                colorFilter = ColorFilter.tint(color = MaterialTheme.noteAppColors.onSecondaryColor)
-            )
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
+    )
 
-            if(note != null){
+    val coroutineScope = rememberCoroutineScope()
+
+    BottomSheetScaffold(
+        scaffoldState = bottomSheetScaffoldState,
+        sheetPeekHeight = 0.dp,
+        sheetBackgroundColor = MaterialTheme.colors.surface,
+        sheetContent = {
+            ColorSelectorDesign(
+                noteColorList = noteColorList,
+                onColorSelectedIndex = {
+                    onColorSelectedIndex(it)
+                    coroutineScope.launch {
+                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                    }
+                }
+            )
+        }
+    ) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .background(color = getNoteColorFromIndex(noteColorList, selectedNoteColorIndex)),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Image(
                     modifier = Modifier
                         .size(24.dp)
-                        .clickable { deleteNote() },
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "Delete Note Button",
+                        .clickable {
+                            saveNoteChanges(
+                                noteTitle,
+                                noteContent
+                            )
+                        },
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back Button",
                     colorFilter = ColorFilter.tint(color = MaterialTheme.noteAppColors.onSecondaryColor)
                 )
+
+                if(note != null){
+                    Image(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clickable { deleteNote() },
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Delete Note Button",
+                        colorFilter = ColorFilter.tint(color = MaterialTheme.noteAppColors.onSecondaryColor)
+                    )
+                }
             }
-        }
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.8f)
-        ){
-            ConstraintLayout(
-                modifier = Modifier.fillMaxSize()
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.8f)
             ){
-                val (titleSpace, contentSpace) = createRefs()
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .constrainAs(titleSpace) {
-                            top.linkTo(parent.top)
-                        }
+                ConstraintLayout(
+                    modifier = Modifier.fillMaxSize()
                 ){
-                    BasicTextField(
+                    val (titleSpace, contentSpace) = createRefs()
+
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .onFocusChanged {
-                                isTitleHintDisplayed = !it.isFocused && noteTitle.isBlank()
-                            },
-                        value = noteTitle,
-                        onValueChange = { noteTitle = it },
-                        textStyle = TextStyle(
-                            color = MaterialTheme.colors.onSecondary,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 22.sp
-                        ),
-                    )
-
-                    if(isTitleHintDisplayed){
-                        Text(
-                            text = "Título",
-                            style = TextStyle(
-                                color = Color.DarkGray,
+                            .padding(horizontal = 16.dp)
+                            .constrainAs(titleSpace) {
+                                top.linkTo(parent.top)
+                            }
+                    ){
+                        BasicTextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .onFocusChanged {
+                                    isTitleHintDisplayed = !it.isFocused && noteTitle.isBlank()
+                                },
+                            value = noteTitle,
+                            onValueChange = { noteTitle = it },
+                            textStyle = TextStyle(
+                                color = MaterialTheme.colors.onSecondary,
                                 fontWeight = FontWeight.SemiBold,
                                 fontSize = 22.sp
-                            )
+                            ),
                         )
-                    }
-                }
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .padding(top = 18.dp)
-                        .constrainAs(contentSpace) {
-                            top.linkTo(titleSpace.bottom)
-                        },
-                    contentAlignment = Alignment.TopStart
-                ){
-                    BasicTextField(
+                        if(isTitleHintDisplayed){
+                            Text(
+                                text = "Título",
+                                style = TextStyle(
+                                    color = Color.DarkGray,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 22.sp
+                                )
+                            )
+                        }
+                    }
+
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .onFocusChanged {
-                                isContentHintDisplayed = !it.isFocused && noteContent.isBlank()
+                            .padding(horizontal = 16.dp)
+                            .padding(top = 18.dp)
+                            .constrainAs(contentSpace) {
+                                top.linkTo(titleSpace.bottom)
                             },
-                        value = noteContent,
-                        onValueChange = { noteContent = it },
-                        textStyle = TextStyle(
-                            color = MaterialTheme.colors.onSecondary,
-                            fontSize = 16.sp
-                        )
-                    )
-
-                    if(isContentHintDisplayed){
-                        Text(
-                            text = "Nota",
-                            style = TextStyle(
-                                color = Color.DarkGray,
-                                fontWeight = FontWeight.SemiBold,
+                        contentAlignment = Alignment.TopStart
+                    ){
+                        BasicTextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .onFocusChanged {
+                                    isContentHintDisplayed = !it.isFocused && noteContent.isBlank()
+                                },
+                            value = noteContent,
+                            onValueChange = { noteContent = it },
+                            textStyle = TextStyle(
+                                color = MaterialTheme.colors.onSecondary,
                                 fontSize = 16.sp
                             )
                         )
+
+                        if(isContentHintDisplayed){
+                            Text(
+                                text = "Nota",
+                                style = TextStyle(
+                                    color = Color.DarkGray,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 16.sp
+                                )
+                            )
+                        }
                     }
                 }
             }
-        }
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp)
-                .weight(0.1f),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            Image(
+            Row(
                 modifier = Modifier
-                    .size(24.dp)
-                    .weight(0.1f)
-                    .clickable { },
-                painter = painterResource(id = R.drawable.ic_palette),
-                contentDescription = "Change Note Color Button",
-                colorFilter = ColorFilter.tint(color = MaterialTheme.noteAppColors.onSecondaryColor)
-            )
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp)
+                    .weight(0.1f),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Image(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .weight(0.1f)
+                        .clickable {
+                            coroutineScope.launch {
+                                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                    bottomSheetScaffoldState.bottomSheetState.expand()
+                                } else {
+                                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                                }
+                            }
+                        },
+                    painter = painterResource(id = R.drawable.ic_palette),
+                    contentDescription = "Change Note Color Button",
+                    colorFilter = ColorFilter.tint(color = MaterialTheme.noteAppColors.onSecondaryColor)
+                )
 
-            if(note != null){
-                val updatedAt = Date(note.updated)
+                if(note != null){
+                    val updatedAt = Date(note.updated)
 
-                val dateFormat: SimpleDateFormat = if(DateUtils.isToday(updatedAt.time)) {
-                    SimpleDateFormat("hh:mm a", Locale.ROOT)
+                    val dateFormat: SimpleDateFormat = if(DateUtils.isToday(updatedAt.time)) {
+                        SimpleDateFormat("hh:mm a", Locale.ROOT)
+                    } else {
+                        SimpleDateFormat("MMM dd", Locale.ROOT)
+                    }
+
+                    Text(
+                        modifier = Modifier.weight(0.8f),
+                        text = "Editado ${dateFormat.format(updatedAt)}",
+                        style = TextStyle(
+                            color = MaterialTheme.noteAppColors.onSecondaryColor,
+                            fontSize = 12.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    )
                 } else {
-                    SimpleDateFormat("MMM dd", Locale.ROOT)
+                    Spacer(modifier = Modifier
+                        .size(24.dp)
+                        .weight(0.8f)
+                    )
                 }
 
-                Text(
-                    modifier = Modifier.weight(0.8f),
-                    text = "Editado ${dateFormat.format(updatedAt)}",
-                    style = TextStyle(
-                        color = MaterialTheme.noteAppColors.onSecondaryColor,
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center
-                    )
-                )
-            } else {
                 Spacer(modifier = Modifier
                     .size(24.dp)
-                    .weight(0.8f)
+                    .weight(0.1f)
                 )
             }
-
-            Spacer(modifier = Modifier
-                .size(24.dp)
-                .weight(0.1f)
-            )
         }
     }
 
