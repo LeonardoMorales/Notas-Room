@@ -17,6 +17,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.leonardom.notasroom.presentation.navigation.Destination
 import dev.leonardom.notasroom.presentation.note_detail.NoteDetailScreen
@@ -63,6 +64,9 @@ fun NavGraphBuilder.addNoteList(
     composable(
         route = Destination.NoteList.route
     ){
+
+        val systemUiController = rememberSystemUiController()
+
         val viewModel: NoteListViewModel = hiltViewModel()
 
         val noteList = viewModel.noteList.collectAsState()
@@ -71,6 +75,10 @@ fun NavGraphBuilder.addNoteList(
         LaunchedEffect(key1 = noteList){
             viewModel.getNotes()
         }
+
+        systemUiController.setSystemBarsColor(
+            color = MaterialTheme.noteAppColors.appBgColor
+        )
 
         NoteListScreen(
             noteList = noteList.value,

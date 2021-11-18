@@ -87,12 +87,14 @@ fun NoteListScreen(
                 }
             }
         } else {
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.noteAppColors.appBgColor)
+            ) {
                 item {
                     StaggeredVerticalGrid(
                         maxColumnWidth = 220.dp,
-                        modifier = Modifier
-                            .background(MaterialTheme.noteAppColors.appBgColor),
                     ) {
                         noteList.forEach {
                             NoteDesign(
